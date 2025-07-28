@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSubscriptions, useUpdateSubscription } from '@/hooks/useSubscription'
@@ -13,7 +13,7 @@ import SkeletonLoader from '@/components/ui/SkeletonLoader'
 import { Subscription } from '@/types'
 import Link from 'next/link'
 
-export default function DashboardPage() {
+function DashboardPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const isWelcome = searchParams.get('welcome') === 'true'
@@ -225,4 +225,12 @@ export default function DashboardPage() {
       />
     </div>
   )
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense>
+      <DashboardPageContent />
+    </Suspense>
+  );
 }
